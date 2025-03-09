@@ -43,7 +43,7 @@ export default function SignUp() {
             if (error instanceof Error) {
                 toast.error(error.message);
             } else {
-                toast.error("Une erreur s&apos;est produite");
+                toast.error("Une erreur s'est produite");
             }
         }
     };
@@ -88,7 +88,7 @@ export default function SignUp() {
                     onClick={handleSignUp}
                     disabled={loading}
                 >
-                    {loading ? "Inscription..." : "S&apos;inscrire"}
+                    {loading ? "Inscription..." : "S'inscrire"}
                 </Button>
 
                 <p className="mt-4 text-sm text-gray-600">

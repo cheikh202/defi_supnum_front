@@ -14,9 +14,26 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const handleLogout = () => {
-    // Ajoute ici ta logique de déconnexion (ex: Supabase, Firebase, etc.)
-    router.push('/login');
+  const handleLogout = async () => {
+    try {
+      // Appel à l'API de déconnexion
+      const response = await fetch('http://127.0.0.1:8000/logout/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Ajoutez d'autres informations de déconnexion si nécessaire (par exemple un token)
+        body: JSON.stringify({}),
+      });
+
+      if (response.ok) {
+        localStorage.removeItem('jwt-token')
+        window.location.href="/login";
+      } 
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion:', error);
+      
+    }
   };
 
   return (

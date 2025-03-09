@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
   
-    const protectedRoutes = ["/Admin/Tasks"];
+    const protectedRoutes = ["/adminpage","/professeurpage"];
   
     if (token) {
       try {
@@ -26,6 +26,7 @@ export async function middleware(req: NextRequest) {
   
         if (!res.ok) {
           console.log("Token verification failed");
+          localStorage.removeItem('jwt-token');
           return NextResponse.redirect(new URL("/login", req.url));
         }
   
@@ -33,17 +34,19 @@ export async function middleware(req: NextRequest) {
   
         if (!user) {
           console.log("No user found");
+          localStorage.removeItem('jwt-token');
           return NextResponse.redirect(new URL("/login", req.url));
         }
       } catch (error) {
         console.error("Error fetching user", error);
+        localStorage.removeItem('jwt-token');
         return NextResponse.redirect(new URL("/login", req.url));
       }
     }
   
     if (!token && protectedRoutes.includes(url.pathname)) {
       console.log("No token, redirecting to login");
-      return NextResponse.redirect(new URL("/login", req.url));
+      // return NextResponse.redirect(new URL("/login", req.url));
     }
   
     return NextResponse.next();

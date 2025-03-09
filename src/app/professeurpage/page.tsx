@@ -1,8 +1,9 @@
-'use client';
 
+'use client'
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { RotateCcw } from 'lucide-react';
+import axios from 'axios';
 
 const jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 const creneaux = [
@@ -16,16 +17,23 @@ const creneaux = [
 export default function DisponibilitesProf() {
   const [disponibilites, setDisponibilites] = useState<Record<string, Set<string>>>({});
   const [datesJours, setDatesJours] = useState<Record<string, string>>({});
+  const [user, setUser] = useState<{ id: number, nom: string }>({ id: 0, nom: '' });  // Utilisateur connecté
 
   useEffect(() => {
-    // Appel de l'API pour récupérer les dates des jours
+    // Charger les données de l'utilisateur connecté (Exemple avec une API ou contexte)
+    fetch('http://127.0.0.1:8000/user/')  // Assurez-vous de remplacer cette URL par l'API réelle qui renvoie l'utilisateur
+      .then((res) => res.json())
+      .then((data) => setUser({ id: data.id, nom: data.nom  }))
+      .catch((error) => console.error('Erreur lors du chargement des informations utilisateur:', error));
+
+    
     fetch('http://127.0.0.1:8000/api/jours-semaine/')
       .then((res) => res.json())
       .then((data) => {
-        // Associer les jours aux dates
         const mappedDates: Record<string, string> = {};
-        data.forEach((item: { jour: string; date_jour: string }) => {
-          mappedDates[item.jour] = item.date_jour;
+        data.forEach((item: { id_jrs: number; date_jour: string }) => {
+          const jour = jours[item.id_jrs - 1]; // Mapper l'id_jrs aux jours correspondants
+          mappedDates[jour] = item.date_jour;
         });
         setDatesJours(mappedDates);
       })
@@ -34,7 +42,7 @@ export default function DisponibilitesProf() {
 
   const toggleDisponibilite = (jour: string, creneau: string) => {
     setDisponibilites((prev) => {
-      const updated = structuredClone(prev);
+      const updated = structuredClone(prev);// Appel de l'API pour récupérer les dates des jours
       if (!updated[jour]) updated[jour] = new Set();
       if (updated[jour].has(creneau)) {
         updated[jour].delete(creneau);
@@ -49,12 +57,25 @@ export default function DisponibilitesProf() {
     setDisponibilites({});
   };
 
-  const envoyerReponse = () => {
+  const envoyerReponse = async () => {
     const disponibilitesFinales = Object.fromEntries(
-      Object.entries(disponibilites).map(([jour, creneaux]) => [jour, Array.from(creneaux)])
+      Object.entries(disponibilites).map(([jour, creneaux]) => [jour, Array.from(creneaux)]),
     );
-    console.log('Disponibilités envoyées:', disponibilitesFinales);
-    alert('Vos disponibilités ont été enregistrées.');
+
+    // Préparer les données à envoyer à l'API
+    const dataToSend = {
+      enseignant_id: user.id,  // ID de l'utilisateur connecté
+      enseignant_nom: user.nom,  // Nom de l'utilisateur connecté
+      disponibilites: disponibilitesFinales,
+    };
+
+    try {
+      await axios.post('http://127.0.0.1:8000/api/enseignants/', dataToSend);
+      alert('Vos disponibilités ont été enregistrées.');
+    } catch (error) {
+      console.error('Erreur lors de l\'enregistrement des disponibilités:', error);
+      alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+    }
   };
 
   return (
