@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { RotateCcw } from 'lucide-react';
 
@@ -15,6 +15,22 @@ const creneaux = [
 
 export default function DisponibilitesProf() {
   const [disponibilites, setDisponibilites] = useState<Record<string, Set<string>>>({});
+  const [datesJours, setDatesJours] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    // Appel de l'API pour récupérer les dates des jours
+    fetch('http://127.0.0.1:8000/api/jours-semaine/')
+      .then((res) => res.json())
+      .then((data) => {
+        // Associer les jours aux dates
+        const mappedDates: Record<string, string> = {};
+        data.forEach((item: { jour: string; date_jour: string }) => {
+          mappedDates[item.jour] = item.date_jour;
+        });
+        setDatesJours(mappedDates);
+      })
+      .catch((error) => console.error('Erreur lors du chargement des dates:', error));
+  }, []);
 
   const toggleDisponibilite = (jour: string, creneau: string) => {
     setDisponibilites((prev) => {
@@ -50,7 +66,10 @@ export default function DisponibilitesProf() {
             <tr className="bg-gray-100">
               <th className="border p-3">Créneaux</th>
               {jours.map((jour) => (
-                <th key={jour} className="border p-3">{jour}</th>
+                <th key={jour} className="border p-3">
+                  <div>{jour}</div>
+                  <div className="text-sm text-gray-500">{datesJours[jour] || 'Chargement...'}</div>
+                </th>
               ))}
             </tr>
           </thead>
