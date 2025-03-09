@@ -39,10 +39,12 @@ export default function SignUp() {
 
             toast.success("Inscription réussie !");
             router.push("/login");
-        } catch (error: any) {
-            toast.error(error.message || "Une erreur s'est produite");
-        } finally {
-            setLoading(false);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error("Une erreur s'est produite");
+            }
         }
     };
 

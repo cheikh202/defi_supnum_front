@@ -77,7 +77,7 @@ export default function SignIn() {
                 </Button>
 
                 <p className="mt-4 text-sm text-gray-600">
-                    Vous n'avez pas un compte ?  
+                    Vous n&apos;avez pas un compte ?  
                     <span 
                         className="text-blue-500 cursor-pointer hover:underline ml-1" 
                         onClick={() => router.push("/registre")}
