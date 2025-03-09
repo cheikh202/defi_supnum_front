@@ -3,7 +3,7 @@
 import { ReactNode, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { LogOut, Book, Users, Settings, Menu } from 'lucide-react';
+import { LogOut, Book,  Menu } from 'lucide-react';
 import Link from 'next/link';
 
 interface ProfessorLayoutProps {
@@ -16,7 +16,8 @@ export default function ProfessorLayout({ children }: ProfessorLayoutProps) {
 
   const handleLogout = () => {
     // Ajoute ici ta logique de déconnexion (ex: Supabase, Firebase, etc.)
-    router.push('/login');
+    router.replace('/login');
+
   };
 
   return (
