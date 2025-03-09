@@ -34,7 +34,7 @@ export default function SignUp() {
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || "Erreur lors de l'inscription");
+                throw new Error(data.message || "Erreur lors de l&apos;inscription");
             }
 
             toast.success("Inscription réussie !");
@@ -43,7 +43,7 @@ export default function SignUp() {
             if (error instanceof Error) {
                 toast.error(error.message);
             } else {
-                toast.error("Une erreur s'est produite");
+                toast.error("Une erreur s&apos;est produite");
             }
         }
     };
@@ -88,7 +88,7 @@ export default function SignUp() {
                     onClick={handleSignUp}
                     disabled={loading}
                 >
-                    {loading ? "Inscription..." : "S'inscrire"}
+                    {loading ? "Inscription..." : "S&apos;inscrire"}
                 </Button>
 
                 <p className="mt-4 text-sm text-gray-600">
