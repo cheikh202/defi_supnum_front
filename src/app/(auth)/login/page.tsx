@@ -28,8 +28,10 @@ export default function SignIn() {
         if (response.ok) {
             const token = data.jwt; 
             const  role = data.role;
+            const id_u = data.id_u;
             if (token) {
                 localStorage.setItem("jwt-token", token);
+                localStorage.setItem("id_u", id_u);
                 toast.success("Connexion réussie !");
                 if(role==="admin"){
                     router.push("/adminpage"); 
