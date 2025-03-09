@@ -9,5 +9,6 @@ export async function middleware(req: NextRequest) {
       console.log("Redirecting to login");
       return NextResponse.redirect(new URL("/login", req.url));
     }
-}
+  
+  }
   

@@ -33,10 +33,11 @@ export default function SignIn() {
                 localStorage.setItem("jwt-token", token);
                 localStorage.setItem("id_u", id_u);
                 toast.success("Connexion réussie !");
+                console.log(role);
                 if(role==="admin"){
                     router.push("/adminpage"); 
                 }
-                if(role==="professeur"){
+                else if(role==="professeur"){
                     router.push("/professeurpage"); 
                 }
 
