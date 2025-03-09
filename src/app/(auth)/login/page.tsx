@@ -1,18 +1,43 @@
 'use client';
 import { useState } from "react";
-
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Toaster } from "@/components/ui/sonner";
-
-import { toast } from "sonner"; 
+import { Toaster, toast } from "sonner"; 
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-    
+    const handleLogin = async () => {
+        setLoading(true);
+
+        const response = await fetch("http://127.0.0.1:8000/login/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({ login_or_email:email, password }),
+        });
+
+        const data = await response.json();
+        setLoading(false);
+
+        if (response.ok) {
+            const token = data.jwt; 
+            if (token) {
+                localStorage.setItem("jwt-token", token);
+                toast.success("Connexion réussie !");
+                router.push("/adminpage"); 
+            } else {
+                toast.error("Token non reçu, veuillez réessayer.");
+            }
+        } else {
+            toast.error(data.error || "Échec de la connexion. Vérifiez vos identifiants.");
+        }
+    };
 
     return (
         <div className="w-full h-screen flex items-center justify-center bg-gray-100">
@@ -35,8 +60,12 @@ export default function SignIn() {
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <Button className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white" >
-                    Se connecter
+                <Button 
+                    className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white" 
+                    onClick={handleLogin}
+                    disabled={loading}
+                >
+                    {loading ? "Connexion..." : "Se connecter"}
                 </Button>
 
                 <p className="mt-4 text-sm text-gray-600">
