@@ -11,11 +11,11 @@ import axios from "axios";
 // Types
 type Affectation = {
   id: number;
-  enseignant: { nom: string };
-  matiere: { nom: string };
+  enseignant: { id: number; nom: string };
+  matiere: { id: number; nom: string };
   type_enseignement: string;
-  filiere?: { nom: string };
-  groupe?: { nom: string };
+  filiere?: { id: number; nom: string };
+  groupe?: { id: number; nom: string };
 };
 
 type Charge = {
@@ -32,7 +32,13 @@ type Charge = {
 export default function AdminPage() {
   const [affectations, setAffectations] = useState<Affectation[]>([]);
   const [charges, setCharges] = useState<Charge[]>([]);
-  const [newAffectation, setNewAffectation] = useState({ enseignant: "", matiere: "", type_enseignement: "CM" });
+  const [newAffectation, setNewAffectation] = useState({
+    enseignant: "",
+    matiere: "",
+    type_enseignement: "CM",
+    filiere: "",
+    groupe: ""
+  });
 
   useEffect(() => {
     fetchAffectations();
@@ -61,7 +67,7 @@ export default function AdminPage() {
     try {
       await axios.post("http://127.0.0.1:8000/api/affectations_enseignants/", newAffectation);
       fetchAffectations();
-      setNewAffectation({ enseignant: "", matiere: "", type_enseignement: "CM" });
+      setNewAffectation({ enseignant: "", matiere: "", type_enseignement: "CM", filiere: "", groupe: "" });
     } catch (error) {
       console.error("Erreur lors de l'ajout de l'affectation :", error);
     }
@@ -75,7 +81,7 @@ export default function AdminPage() {
       <Card className="shadow-lg rounded-lg p-4">
         <CardContent>
           <h3 className="text-xl font-semibold mb-4 text-gray-700">Ajouter une Affectation</h3>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-4 gap-4">
             <Input
               placeholder="Enseignant"
               value={newAffectation.enseignant}
@@ -97,6 +103,19 @@ export default function AdminPage() {
                 <SelectItem value="TP">Travaux Pratiques</SelectItem>
               </SelectContent>
             </Select>
+            {newAffectation.type_enseignement === "CM" ? (
+              <Input
+                placeholder="Filière"
+                value={newAffectation.filiere}
+                onChange={(e) => setNewAffectation({ ...newAffectation, filiere: e.target.value })}
+              />
+            ) : (
+              <Input
+                placeholder="Groupe"
+                value={newAffectation.groupe}
+                onChange={(e) => setNewAffectation({ ...newAffectation, groupe: e.target.value })}
+              />
+            )}
           </div>
           <Button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold" onClick={handleAddAffectation}>
             Ajouter
