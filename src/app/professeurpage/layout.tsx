@@ -26,15 +26,10 @@ export default function ProfessorLayout({ children }: ProfessorLayoutProps) {
         <aside className="w-64 bg-blue-900 text-white p-5 flex flex-col gap-4">
           <h2 className="text-2xl font-bold">Espace Professeur</h2>
           <nav className="flex flex-col gap-2">
-            <Link href="/professor/courses" className="flex items-center gap-2 p-2 rounded hover:bg-blue-800">
-              <Book className="w-5 h-5" /> Mes Cours
+            <Link href="/professeurpage" className="flex items-center gap-2 p-2 rounded hover:bg-blue-800">
+              <Book className="w-5 h-5" />  Mes Disponibilités
             </Link>
-            <Link href="/professor/students" className="flex items-center gap-2 p-2 rounded hover:bg-blue-800">
-              <Users className="w-5 h-5" /> Étudiants
-            </Link>
-            <Link href="/professor/settings" className="flex items-center gap-2 p-2 rounded hover:bg-blue-800">
-              <Settings className="w-5 h-5" /> Paramètres
-            </Link>
+            
           </nav>
         </aside>
       )}
