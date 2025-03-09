@@ -1,4 +1,4 @@
-import StudentLayout from './layout';
+
 
 export default function StudentPage() {
   return (

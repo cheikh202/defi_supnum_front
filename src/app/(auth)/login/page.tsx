@@ -27,10 +27,18 @@ export default function SignIn() {
 
         if (response.ok) {
             const token = data.jwt; 
+            const  role = data.role;
             if (token) {
                 localStorage.setItem("jwt-token", token);
                 toast.success("Connexion réussie !");
-                router.push("/adminpage"); 
+                if(role==="admin"){
+                    router.push("/adminpage"); 
+                }
+                if(role==="professeur"){
+                    router.push("/professeurpage"); 
+                }
+
+               
             } else {
                 toast.error("Token non reçu, veuillez réessayer.");
             }
