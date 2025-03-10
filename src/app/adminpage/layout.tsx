@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactNode, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { LogOut, LayoutDashboard, Settings, Menu } from 'lucide-react';
 import Link from 'next/link';
