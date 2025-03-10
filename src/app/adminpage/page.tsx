@@ -181,6 +181,7 @@ export default function AdminPage() {
             <TableBody>
               {affectations.map((aff) => (
                 <TableRow key={`affectation-${aff.id}`} className="hover:bg-gray-50">
+
                   <TableCell>{aff.enseignant?.nom || "N/A"}</TableCell>
                   <TableCell>{aff.matiere?.nom || "N/A"}</TableCell>
                   <TableCell>{aff.type_enseignement}</TableCell>
@@ -193,4 +194,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
