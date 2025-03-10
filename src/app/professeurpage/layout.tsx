@@ -11,7 +11,6 @@ interface ProfessorLayoutProps {
 }
 
 export default function ProfessorLayout({ children }: ProfessorLayoutProps) {
-  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleLogout = async () => {

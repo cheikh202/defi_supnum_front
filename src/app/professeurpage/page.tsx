@@ -119,7 +119,7 @@ export default function DisponibilitesProf() {
     return (
       <div className="p-6 max-w-4xl mx-auto text-center border rounded-lg bg-gray-100">
         <h1 className="text-2xl font-bold mb-4">Vous avez déjà sélectionné vos disponibilités de cette semaine.</h1>
-        <p className="text-gray-600">Si vous souhaitez modifier vos disponibilités, contactez l'administration.</p>
+        <p className="text-gray-600">Si vous souhaitez modifier vos disponibilités, contactez l&apos;administration.</p>
       </div>
     );
   }

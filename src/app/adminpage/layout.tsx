@@ -11,7 +11,6 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleLogout = async () => {
